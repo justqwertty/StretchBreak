@@ -1,0 +1,12 @@
+{
+  "name": "stretchbreak",
+  "version": "0.1.0",
+  "description": "Turns Claude's thinking time into a quick ergonomic stretch. Shows a short, targeted desk stretch while long tasks run; fully customizable; bring your own stretch packs.",
+  "author": {
+    "name": "StretchBreak contributors"
+  },
+  "homepage": "https://github.com/stretchbreak/stretchbreak",
+  "repository": "https://github.com/stretchbreak/stretchbreak",
+  "license": "MIT",
+  "keywords": ["ergonomics", "wellness", "stretch", "posture", "break", "health"]
+}

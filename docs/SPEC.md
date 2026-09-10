@@ -211,11 +211,15 @@ Terminal detection should be conservative: when in doubt, use the status line, s
 
 ### 4.2 Cowork
 
-**Trigger.** A Cowork plugin whose skill is instructed to run `stretchbreak pick` at the start of any multi-step task, and `stretchbreak done` when the task's tool burst completes. (Cowork lacks a formal hook API today; the skill approach means the plugin works without one, and can move to hooks if/when they arrive.)
+**Shape.** A Cowork plugin (`adapters/cowork/plugin`) made of three skills and one CLI (`scripts/sb.js`) that wraps the core scheduler. `build.sh` vendors `core/` and `packs/default/` into the plugin so it never drifts from the repo, and zips a `.plugin` file.
 
-**Display.** A small non-modal HTML panel anchored `panel_position` (default bottom-right of the task view) showing the looping animation, the cue, and a countdown ring matched to `duration_s`. Because Cowork is an app surface, this is the "GIF" experience at its best: no terminal caveats. The panel fades out on `done` or when the countdown ends, whichever is first.
+**Trigger.** The `stretch-break` skill is ambient: before any work expected to keep the user waiting 20 s or more (long shell commands, builds, batches, research sweeps, subagents) it calls `sb.js show --wait <estimate>` and renders the result. Cowork lacks a formal hook API today; the skill approach means the plugin works without one, and can move to hooks if/when they arrive.
 
-Since Cowork users are less terminal-native, the Cowork side also hosts the **settings UI**: a preferences page that reads/writes the same `~/.stretchbreak/config.json`, so a change there is immediately reflected in Claude Code.
+**Ask first.** The first time in a task a stretch would be shown, the skill asks: this session / always / not now / turn off. "Always" sets `session_opt_in: true` so later tasks skip the question; "turn off" sets `enabled: false`.
+
+**Display.** `sb.js show` prints the chosen stretch as JSON, then a self-contained HTML fragment (animation, cue, steps, countdown bar) styled with Cowork's CSS variables so it works in light and dark. The skill hands that fragment to Cowork's inline widget renderer, which draws it directly in the chat. Rendering is done by the script rather than by the model so every card looks identical. If the widget tool is unavailable in a session, the skill falls back to a one-line text cue. Because the card lives in the transcript there is no explicit `done`; the countdown simply finishes.
+
+**On demand and settings.** The `stretch` skill shows one immediately (`--force`, optional `--area`), bypassing caps. The `stretch-settings` skill maps plain-language requests ("I have a wrist injury", "don't make me stand", "fewer", "no stretches after 10pm", "add the pack at ~/x") onto `sb.js config set` calls against the same `~/.stretchbreak/config.json` Claude Code uses. In cloud sessions the home folder may reset between tasks; the skill can keep a copy in a connected folder.
 
 ### 4.3 Shared: media assets
 
@@ -293,4 +297,4 @@ stretchbreak/
 | M2 | Claude Code adapter: hooks config, status line, text + URL modes | Testable in your own setup |
 | M3 | Animation set: 20 SVG loops in one style + GIF renders | Style exploration first |
 | M4 | Inline-image mode for supported terminals | After the support matrix |
-| M5 | Cowork plugin: skill + panel + settings UI | Shares config with CC |
+| M5 | Cowork plugin: 3 skills + CLI + inline card | ✅ `adapters/cowork` (v0.1) |

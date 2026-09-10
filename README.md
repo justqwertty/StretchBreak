@@ -6,7 +6,7 @@ When Claude Code or Cowork is busy running a long tool call, you're sitting ther
 
 It never costs you time. Stretches only appear while the AI is already working, never block anything, and clear the moment it's ready.
 
-> Status: **early**. The spec, default stretch pack, scheduler and validator are here. The Claude Code and Cowork adapters and the animation set are in progress. See [docs/SPEC.md](docs/SPEC.md) §9 for milestones.
+> Status: **early**. The spec, default stretch pack, scheduler, validator and a first Cowork plugin are here. The Claude Code adapter and the animation set are in progress. See [docs/SPEC.md](docs/SPEC.md) §9 for milestones.
 
 ## How it works
 
@@ -54,6 +54,7 @@ Every directory stands alone:
 - `packs/default/` — 20 conservative desk stretches as plain JSON + SVG, CC BY 4.0.
 - `schema/` — JSON Schema for stretch records, packs and config.
 - `scripts/validate.js` — the pack validator, also zero deps.
+- `adapters/cowork/` — a Cowork plugin (three skills + CLI); `adapters/cowork/build.sh` produces the installable `.plugin`.
 - `adapters/` — one folder per surface. Want StretchBreak in Cursor, Zed, or a menu-bar app? Add a folder that speaks the `pick` / `done` contract in the spec.
 
 ## Development
