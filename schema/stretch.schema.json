@@ -3,7 +3,19 @@
   "$id": "https://stretchbreak.dev/schema/stretch.schema.json",
   "title": "StretchBreak stretch record",
   "type": "object",
-  "required": ["id", "name", "area", "posture", "duration_s", "tier", "cue", "counter", "hands_free", "contra", "media"],
+  "required": [
+    "id",
+    "name",
+    "area",
+    "posture",
+    "duration_s",
+    "tier",
+    "cue",
+    "steps",
+    "counter",
+    "hands_free",
+    "contra"
+  ],
   "additionalProperties": false,
   "properties": {
     "id": {
@@ -11,28 +23,64 @@
       "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
       "description": "Kebab-case, unique within the pack. Namespaced as <pack>/<id> at load time."
     },
-    "name": { "type": "string", "minLength": 3, "maxLength": 40 },
+    "name": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 40
+    },
     "area": {
-      "enum": ["neck", "shoulders", "upper-back", "wrists", "hands", "hips", "lower-back", "eyes", "full-body"]
+      "enum": [
+        "neck",
+        "shoulders",
+        "upper-back",
+        "wrists",
+        "hands",
+        "hips",
+        "lower-back",
+        "eyes",
+        "full-body"
+      ]
     },
-    "posture": { "enum": ["seated", "standing", "either"] },
-    "duration_s": { "type": "integer", "minimum": 3, "maximum": 300 },
+    "posture": {
+      "enum": [
+        "seated",
+        "standing",
+        "either"
+      ]
+    },
+    "duration_s": {
+      "type": "integer",
+      "minimum": 3,
+      "maximum": 300
+    },
     "tier": {
-      "enum": ["micro", "short", "medium", "long"],
-      "description": "micro ≤10s, short 11–30s, medium 31–59s, long ≥60s. Must match duration_s unless the record sets tier_override: true."
+      "enum": [
+        "micro",
+        "short",
+        "medium",
+        "long"
+      ],
+      "description": "micro \u226410s, short 11\u201330s, medium 31\u201359s, long \u226560s. Must match duration_s unless the record sets tier_override: true."
     },
-    "tier_override": { "type": "boolean", "default": false },
+    "tier_override": {
+      "type": "boolean",
+      "default": false
+    },
     "cue": {
       "type": "string",
       "minLength": 10,
-      "maxLength": 90,
-      "description": "One line shown in the status line / panel. Include timing."
+      "maxLength": 140,
+      "description": "One line the user can follow on its own. Include what to do and for how long."
     },
     "steps": {
       "type": "array",
-      "items": { "type": "string", "minLength": 5 },
-      "minItems": 1,
-      "maxItems": 6
+      "items": {
+        "type": "string",
+        "minLength": 15
+      },
+      "minItems": 2,
+      "maxItems": 8,
+      "description": "Precise, ordered instructions. Each step is one action with position, direction and timing where relevant. Written to be followed without a picture."
     },
     "counter": {
       "type": "string",
@@ -47,8 +95,17 @@
       "type": "array",
       "items": {
         "enum": [
-          "neck-injury", "shoulder-injury", "wrist-injury", "back-injury", "hip-injury",
-          "knee-injury", "ankle-injury", "pregnancy", "low-blood-pressure", "vertigo", "recent-surgery"
+          "neck-injury",
+          "shoulder-injury",
+          "wrist-injury",
+          "back-injury",
+          "hip-injury",
+          "knee-injury",
+          "ankle-injury",
+          "pregnancy",
+          "low-blood-pressure",
+          "vertigo",
+          "recent-surgery"
         ]
       },
       "uniqueItems": true
@@ -56,12 +113,25 @@
     "media": {
       "type": "object",
       "additionalProperties": false,
-      "minProperties": 1,
       "properties": {
-        "anim": { "type": "string", "pattern": "\\.svg$" },
-        "gif": { "type": "string", "pattern": "\\.gif$" },
-        "url": { "type": "string", "format": "uri" }
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Optional reference link (a video or page). Never required; StretchBreak is text-first."
+        }
       }
+    },
+    "feel": {
+      "type": "string",
+      "minLength": 15,
+      "maxLength": 240,
+      "description": "What the user should feel when doing it right. Required in the default pack."
+    },
+    "avoid": {
+      "type": "string",
+      "minLength": 15,
+      "maxLength": 300,
+      "description": "Common mistakes and stop conditions. Required in the default pack."
     }
   }
 }

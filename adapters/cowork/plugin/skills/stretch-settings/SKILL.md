@@ -23,7 +23,7 @@ Reset everything: `node ${CLAUDE_PLUGIN_ROOT}/scripts/sb.js config reset`
 | "more stretches" | raise `max_per_hour` to 10 and lower `min_gap_s` to 120 |
 | "only during long waits" | `config set min_wait_s 45` |
 | "no stretches after 10pm / before 9" | `config set quiet_hours '[["22:00","09:00"]]'` (24h, wraps midnight) |
-| "just text, no animation" | `config set media text` |
+| "just the one-liner" / "show me the full notes" | `config set verbosity cue` / `steps` / `full` (the Cowork card always shows everything; this affects the Claude Code adapter) |
 | "add the pack at ~/my-pack" / "use this repo's pack" | read current `packs`, append the path, `config set packs '["default","~/my-pack"]'`. Verify with `sb.js list` that it loaded; if the CLI warns the pack was not found, tell the user the path and that the folder needs a `pack.json`. |
 | "remove the yoga pack" | remove it from the `packs` array and set the array again |
 | "disable the chin tuck" | `config set overrides.chin-tuck '{"enabled":false}'` (ids from `sb.js list`, without the `default/` prefix) |

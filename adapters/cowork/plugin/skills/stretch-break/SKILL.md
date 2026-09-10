@@ -35,7 +35,7 @@ The scheduler enforces frequency caps and gaps itself; call it freely and respec
 
 1. Run `node ${CLAUDE_PLUGIN_ROOT}/scripts/sb.js show --wait <N> --surface cowork`.
 2. If the output is `null`, show nothing and continue with the task. Do not mention stretches.
-3. Otherwise the output is one JSON line, a `---` separator, then widget HTML. Render the HTML with the inline widget tool (`show_widget`) if it is available in this session, with the title `stretch_<id>` and a single loading message such as "Rolling out a stretch". If the widget tool is not available, write the cue in one short line instead: "Stretch while I work: **Neck side bend** · Ear toward shoulder, opposite shoulder down, 15s each side."
+3. Otherwise the output is one JSON line, a `---` separator, then widget HTML. Render the HTML with the inline widget tool (`show_widget`) if it is available in this session, with the title `stretch_<id>` and a single loading message such as "Rolling out a stretch". If the widget tool is not available, write it as plain text from the JSON line instead: the name in bold, the cue, then the steps as a numbered list, then one line each for "Feel:" and "Avoid:". The instructions are the product; never shorten them to just the cue.
 4. Then immediately start the actual work. Do not wait for the user, do not ask whether they did it, do not narrate the stretch.
 
 Keep it to one card per wait. Never show a card when the user is mid-conversation and nothing long is about to run.

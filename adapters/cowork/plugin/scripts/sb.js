@@ -73,35 +73,31 @@ function doPick(o) {
   const s = pick(input);
   if (!s) return null;
   if (!o.dry) appendHistory({ ts: now, id: s.id, area: s.area, surface: input.surface, wait_s: input.waitEstimateS });
-  const anim = s.media && s.media.anim ? path.join(s._dir, "anim", s.media.anim) : null;
   const out = { ...s };
   delete out._dir;
-  out.anim_svg = anim && fs.existsSync(anim) ? fs.readFileSync(anim, "utf8") : null;
   return out;
 }
 
 function esc(t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 
-// Widget HTML for the Cowork inline renderer. Uses only CSS variables so it works in light and dark.
+// Widget HTML for the Cowork inline renderer. Text-first: the instructions are the product.
+// Uses only CSS variables so it works in light and dark.
 function card(s) {
   const area = s.area.replace("-", " ");
-  const svg = s.anim_svg
-    ? s.anim_svg.replace(/<\?xml[^>]*>/, "").replace(/<!--[\s\S]*?-->/g, "").replace("<svg ", '<svg style="width:120px;height:120px;color:var(--text-accent)" ')
-    : `<div style="width:120px;height:120px;border-radius:12px;background:var(--surface-1)"></div>`;
-  const steps = (s.steps || []).map((st) => `<li style="margin:0 0 4px">${esc(st)}</li>`).join("");
+  const steps = (s.steps || []).map((st) => `<li style="margin:0 0 6px">${esc(st)}</li>`).join("");
   const sid = "sb" + Math.random().toString(36).slice(2, 8);
+  const posture = s.posture === "standing" ? " · stand up" : "";
   return `<h2 class="sr-only" style="position:absolute;left:-9999px">${esc(s.name)}: ${esc(s.cue)}</h2>
-<div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;display:flex;gap:16px;align-items:center;max-width:560px">
-  <div style="flex:0 0 120px">${svg}</div>
-  <div style="flex:1;min-width:0">
-    <div style="font-size:12px;color:var(--text-secondary);margin-bottom:2px">Stretch while I work · ${esc(area)} · ${s.duration_s}s</div>
-    <div style="font-size:18px;font-weight:500;margin:0 0 6px">${esc(s.name)}</div>
-    <div style="font-size:14px;line-height:1.5;margin:0 0 8px">${esc(s.cue)}</div>
-    ${steps ? `<ol style="font-size:13px;color:var(--text-secondary);padding-left:18px;margin:0 0 8px">${steps}</ol>` : ""}
-    <div style="display:flex;align-items:center;gap:10px">
-      <div style="flex:1;height:4px;background:var(--surface-1);border-radius:2px;overflow:hidden"><div id="${sid}-bar" style="height:100%;width:100%;background:var(--fill-accent);transition:width 1s linear"></div></div>
-      <span id="${sid}-t" style="font-size:13px;color:var(--text-secondary);min-width:28px;text-align:right">${s.duration_s}s</span>
-    </div>
+<div style="background:var(--surface-2);border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;max-width:600px">
+  <div style="font-size:12px;color:var(--text-secondary);margin-bottom:2px">Stretch while I work · ${esc(area)} · ${s.duration_s}s${posture}</div>
+  <div style="font-size:18px;font-weight:500;margin:0 0 4px">${esc(s.name)}</div>
+  <div style="font-size:14px;line-height:1.5;margin:0 0 10px">${esc(s.cue)}</div>
+  <ol style="font-size:14px;line-height:1.5;padding-left:20px;margin:0 0 10px">${steps}</ol>
+  ${s.feel ? `<div style="font-size:13px;color:var(--text-secondary);line-height:1.5;margin:0 0 4px"><span style="font-weight:500">Feel:</span> ${esc(s.feel)}</div>` : ""}
+  ${s.avoid ? `<div style="font-size:13px;color:var(--text-secondary);line-height:1.5;margin:0 0 10px"><span style="font-weight:500">Avoid:</span> ${esc(s.avoid)}</div>` : ""}
+  <div style="display:flex;align-items:center;gap:10px">
+    <div style="flex:1;height:4px;background:var(--surface-1);border-radius:2px;overflow:hidden"><div id="${sid}-bar" style="height:100%;width:100%;background:var(--fill-accent);transition:width 1s linear"></div></div>
+    <span id="${sid}-t" style="font-size:13px;color:var(--text-secondary);min-width:28px;text-align:right">${s.duration_s}s</span>
   </div>
 </div>
 <script>
@@ -138,8 +134,7 @@ switch (cmd) {
   case "show": {
     const s = doPick(o);
     if (!s) { process.stdout.write("null\n"); break; }
-    const { anim_svg, ...meta } = s;
-    process.stdout.write(JSON.stringify(meta) + "\n---\n" + card(s) + "\n"); break;
+    process.stdout.write(JSON.stringify(s) + "\n---\n" + card(s) + "\n"); break;
   }
   case "today": process.stdout.write(today() + "\n"); break;
   case "snooze": {

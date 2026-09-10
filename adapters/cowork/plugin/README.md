@@ -1,6 +1,6 @@
 # StretchBreak for Cowork
 
-Turns Claude's thinking time into a quick ergonomic stretch. While a long task runs, a small card appears with a short desk stretch matched to the wait: an 8-second blink reset for a short pause, a stand-up hip flexor stretch for a two-minute agentic run. It never blocks anything and never asks you to confirm you did it.
+Turns Claude's thinking time into a quick ergonomic stretch. While a long task runs, a small card appears with a short desk stretch matched to the wait: an 8-second blink reset for a short pause, a stand-up hip flexor stretch for a two-minute agentic run. Each card is written out in full: what to do, step by step, what it should feel like, and what to avoid. No pictures needed. It never blocks anything and never asks you to confirm you did it.
 
 ## What's included
 

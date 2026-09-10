@@ -15,9 +15,10 @@ Design principles that everything else follows from:
 1. **Never cost the user time.** A stretch is only shown when Claude is already busy. It never blocks, never requires completion, and disappears the moment Claude is ready.
 2. **Right-sized to the wait.** A 3-second file read gets nothing. A 20-second build gets a chin tuck. A 2-minute agentic run gets a stand-up hip flexor stretch.
 3. **Cover the body across a day, not per prompt.** The scheduler rotates through target areas so an afternoon of coding hits neck, shoulders, wrists, hips, and eyes, rather than showing the same neck roll ten times.
-4. **User owns the experience.** Opt out of areas (injuries), set intensity (seated-only vs. willing to stand), quiet hours, frequency caps, and media style. Bring your own stretches from a physio.
-5. **Same brain, two faces.** One shared core (library + scheduler + config) with a thin adapter per surface. Preferences follow the user across Claude Code and Cowork.
-6. **Open by default.** MIT-licensed code, CC BY 4.0 assets, and a pack format anyone can publish to. The default library is just the first pack. Every piece (scheduler, packs, animations, adapters) is useful on its own, so people can take only the part they like.
+4. **User owns the experience.** Opt out of areas (injuries), set intensity (seated-only vs. willing to stand), quiet hours, and frequency caps. Bring your own stretches from a physio.
+5. **Instructions are the product.** No pictures, no animations. Every stretch is written precisely enough to follow from the screen: where to put your body, which direction to move, how long, what it should feel like, and what to avoid. Text is universal (terminal, chat, screen reader, any language), packs stay plain JSON anyone can write, and the quality bar is enforced by the validator rather than an asset pipeline.
+6. **Same brain, two faces.** One shared core (library + scheduler + config) with a thin adapter per surface. Preferences follow the user across Claude Code and Cowork.
+7. **Open by default.** MIT-licensed code, CC BY 4.0 stretch text, and a pack format anyone can publish to. The default library is just the first pack. Every piece (scheduler, packs, adapters) is useful on its own, so people can take only the part they like.
 
 ---
 
@@ -37,10 +38,10 @@ Design principles that everything else follows from:
             ▼                               ▼
 ┌───────────────────────┐       ┌───────────────────────┐
 │ Claude Code adapter   │       │ Cowork adapter        │
-│ • hooks (Pre/PostTool,│       │ • plugin + skill      │
-│   Stop, SubagentStart)│       │ • HTML panel w/ loop  │
-│ • status line text    │       │   animation           │
-│ • inline image / URL  │       │ • same config file    │
+│ • hooks (Pre/PostTool,│       │ • plugin + 3 skills   │
+│   Stop, SubagentStart)│       │ • inline text card    │
+│ • status line cue     │       │   with countdown      │
+│ • steps in transcript │       │ • same config file    │
 └───────────────────────┘       └───────────────────────┘
 ```
 
@@ -53,25 +54,26 @@ The core is a small CLI (`stretchbreak`) written in a language with zero runtime
   "id": "neck-side-bend",
   "name": "Neck side bend",
   "area": "neck",                 // neck | shoulders | upper-back | wrists | hands | hips | lower-back | eyes | full-body
-  "posture": "seated",            // seated | standing | either
+  "posture": "either",            // seated | standing | either
   "duration_s": 30,               // total time incl. both sides / all reps
-  "tier": "medium",               // micro (≤10s) | short (11–30s) | medium (31–59s) | long (≥60s)
-  "cue": "Ear toward shoulder, opposite shoulder down. 15s each side.",
-  "steps": [                      // optional, for the expanded / Cowork view
-    "Sit tall, drop right ear toward right shoulder.",
-    "Keep left shoulder pressed down. Hold 15s.",
-    "Switch sides."
+  "tier": "short",                // micro (≤10s) | short (11–30s) | medium (31–59s) | long (≥60s)
+  "cue": "Drop your right ear toward your right shoulder, keeping the left shoulder down. 15 seconds, then switch.",
+  "steps": [                      // required: precise, ordered, followable without a picture
+    "Sit tall. Let both shoulders hang low and relaxed.",
+    "Tilt your head to the right, bringing the right ear toward the right shoulder. Don't lift the shoulder to meet it.",
+    "Hold for a slow count of fifteen, breathing normally, then return to centre.",
+    "Repeat on the left side."
   ],
-  "counter": "forward-head",      // what desk habit it counteracts (used for rotation + copy)
+  "feel": "A long pull down the side of the neck into the top of the opposite shoulder.",   // required in the default pack
+  "avoid": "Don't pull the head with your hand; keep your nose pointing forward. Stop if you feel pinching.", // required in the default pack
+  "counter": "upper-trap-shortening", // what desk habit it counteracts (used for rotation + copy)
   "hands_free": true,             // can be done without letting go of mouse/keyboard? (false = needs both hands)
   "contra": ["neck-injury"],      // contraindication tags matched against user's exclusions
-  "media": {
-    "anim": "neck-side-bend.svg", // looping line-figure animation (SVG/CSS) shipped with the library
-    "gif": "neck-side-bend.gif",  // raster fallback
-    "url": "https://…"            // external reference (last resort / user-provided stretches)
-  }
+  "media": { "url": "https://…" } // optional reference link only; never required
 }
 ```
+
+The three text layers serve three moments: `cue` is the one line you can act on from the status line; `steps` are what you read when you have a few seconds; `feel` and `avoid` are the coaching a physio would give standing next to you. Writing guidance is in `docs/PACKS.md`.
 
 `tier` is derived from `duration_s` but stored explicitly so custom stretches can override (e.g. a user wants a 20s stretch treated as "short").
 
@@ -91,11 +93,10 @@ The core is a small CLI (`stretchbreak`) written in a language with zero runtime
   "exclude_tags": [],              // e.g. ["neck-injury", "wrist-injury", "pregnancy"]
   "posture": "either",             // seated | either  (seated = never ask user to stand)
   "quiet_hours": [["22:00", "08:00"]],
-  "media": "auto",                 // auto | anim | gif | text | url | off
-  "verbosity": "cue",              // cue (one line) | steps (expanded)
+  "verbosity": "steps",            // cue (one line) | steps (cue + steps) | full (adds feel/avoid)
   "surfaces": {
-    "claude-code": { "enabled": true, "inline_images": "auto", "status_line": true },
-    "cowork":      { "enabled": true, "panel_position": "bottom-right" }
+    "claude-code": { "enabled": true, "status_line": true },
+    "cowork":      { "enabled": true }
   },
   "packs": ["default"],            // installed packs, in priority order (see §2.3). Local paths and github: refs allowed.
   "overrides": {                   // per-stretch tweaks without forking a pack
@@ -110,14 +111,14 @@ Everything has a sensible default; a fresh install works with an empty config.
 
 ### 2.3 Stretch packs
 
-A **pack** is a folder (or git repo) containing a `pack.json` and its media assets:
+A **pack** is a folder (or git repo) containing a single `pack.json`:
 
 ```
 my-pack/
-├── pack.json          # metadata + stretches array (same record format as §2.1)
-├── anim/              # SVG loops referenced by media.anim
-└── gif/               # optional raster renders referenced by media.gif
+└── pack.json          # metadata + stretches array (same record format as §2.1)
 ```
+
+That's the whole format. No assets, no build step; a physio can write one in a text editor.
 
 ```jsonc
 // pack.json
@@ -126,7 +127,7 @@ my-pack/
   "version": "1.0.0",
   "description": "Chair-yoga flavored desk stretches",
   "author": "…",
-  "license": "CC-BY-4.0",          // for the pack's own text + assets
+  "license": "CC-BY-4.0",          // for the pack's own text
   "homepage": "https://github.com/…/yoga-desk-pack",
   "stretches": [ /* records per §2.1 */ ]
 }
@@ -138,7 +139,7 @@ Rules:
 - Packs are merged in `config.packs` order; a later pack can shadow an earlier one's id to replace it.
 - `overrides` in the user config apply last, so someone can disable one stretch or change one duration without touching any pack.
 - Install: `stretchbreak add ./my-pack`, `stretchbreak add github:user/repo`, `stretchbreak remove yoga-desk`, `stretchbreak packs` to list.
-- Every pack is validated against `schema/stretch.schema.json` on install; invalid packs are rejected with the exact field that failed.
+- Every pack is validated against `schema/stretch.schema.json` on install; invalid packs are rejected with the exact field that failed. `steps` are required everywhere; `feel` and `avoid` are required in the default pack.
 - The **default pack** ships with the core and is the curated, conservative set. Specialized or opinionated content (rehab protocols, yoga sequences, standing-desk-only sets, a language translation) belongs in a community pack, not the default.
 
 ### 2.4 History store (`~/.stretchbreak/history.jsonl`)
@@ -200,14 +201,13 @@ Because estimates are fuzzy, the display must degrade gracefully when Claude fin
 
 All hooks run `async: true` so they never block Claude. They're single-purpose shell one-liners; logic lives in the CLI.
 
-**Display ladder** (the "URL or GIF" fallback chain), chosen by `surfaces.claude-code.inline_images`:
+**Display.** Text, layered by `verbosity`:
 
-1. **Inline animation** if the terminal supports images (iTerm2 inline images protocol, Kitty graphics protocol, WezTerm, Ghostty; detected via `TERM_PROGRAM` / `TERM` / `KITTY_WINDOW_ID`). Renders the GIF at ~200 px wide beside the cue.
-2. **Status line + text cue** otherwise. A one-liner in the status line (`🧘 Neck side bend · 15s each side · [s] show`), plus the cue text in the transcript area if `verbosity: steps`.
-3. **Keypress → browser.** The cue includes a short local URL (`http://127.0.0.1:7391/s/neck-side-bend`) served by the CLI; opening it shows the animation full-size. This is the "URL" mode and also the mode for user-provided stretches that only have an external link.
-4. **Text only** (`media: text`) for SSH sessions, screen readers, and people who just want the words.
+1. **Status line** always carries the cue (`🧘 Neck side bend · 15s each side`), so it's visible without scrolling and disappears when Claude is ready.
+2. **Transcript** gets the numbered steps when `verbosity` is `steps` (default) and adds the Feel / Avoid lines at `full`. Printed once, as plain text; nothing to dismiss.
+3. `verbosity: cue` is the quiet mode: status line only.
 
-Terminal detection should be conservative: when in doubt, use the status line, since a broken inline image is worse than no image.
+No terminal detection, no images, no local server. Works identically over SSH, in VS Code's terminal, and with screen readers.
 
 ### 4.2 Cowork
 
@@ -217,13 +217,13 @@ Terminal detection should be conservative: when in doubt, use the status line, s
 
 **Ask first.** The first time in a task a stretch would be shown, the skill asks: this session / always / not now / turn off. "Always" sets `session_opt_in: true` so later tasks skip the question; "turn off" sets `enabled: false`.
 
-**Display.** `sb.js show` prints the chosen stretch as JSON, then a self-contained HTML fragment (animation, cue, steps, countdown bar) styled with Cowork's CSS variables so it works in light and dark. The skill hands that fragment to Cowork's inline widget renderer, which draws it directly in the chat. Rendering is done by the script rather than by the model so every card looks identical. If the widget tool is unavailable in a session, the skill falls back to a one-line text cue. Because the card lives in the transcript there is no explicit `done`; the countdown simply finishes.
+**Display.** `sb.js show` prints the chosen stretch as JSON, then a self-contained HTML fragment (cue, numbered steps, Feel and Avoid lines, countdown bar) styled with Cowork's CSS variables so it works in light and dark. The skill hands that fragment to Cowork's inline widget renderer, which draws it directly in the chat. Rendering is done by the script rather than by the model so every card looks identical. If the widget tool is unavailable in a session, the skill falls back to a one-line text cue. Because the card lives in the transcript there is no explicit `done`; the countdown simply finishes.
 
 **On demand and settings.** The `stretch` skill shows one immediately (`--force`, optional `--area`), bypassing caps. The `stretch-settings` skill maps plain-language requests ("I have a wrist injury", "don't make me stand", "fewer", "no stretches after 10pm", "add the pack at ~/x") onto `sb.js config set` calls against the same `~/.stretchbreak/config.json` Claude Code uses. In cloud sessions the home folder may reset between tasks; the skill can keep a copy in a connected folder.
 
-### 4.3 Shared: media assets
+### 4.3 Shared: writing standard
 
-Every stretch ships with a stylized looping animation: a single-color line figure, 2–4 s loop, no text baked in, ~200×200. Two formats generated from one source: SVG+CSS (for Cowork and the local URL page, crisp at any size, theme-aware) and GIF (for terminals with image support). Keeping the style uniform is what makes the library feel like one product; it also sidesteps licensing issues with filmed clips.
+Both surfaces render the same text, so the text has to carry everything. The standard (enforced in `docs/PACKS.md` and by the validator): a `cue` that works alone, `steps` that each name a body part, a direction and a timing, a `feel` line so the user knows they're doing it right, and an `avoid` line with the common mistake and the stop condition. Plain words over anatomy; "the top of the forearm" beats "extensor compartment".
 
 ---
 
@@ -233,7 +233,7 @@ Every stretch ships with a stylized looping animation: a single-color line figur
 - **User dismisses.** Any keypress in CC that isn't the "show" key just carries on; the cue is one line and stays out of the way. Cowork panel has an ✕. Dismissals count toward `max_per_hour` so a dismissed user isn't nagged.
 - **Snooze.** `stretchbreak snooze 30m` from the CLI or the panel.
 - **Daily summary** (opt-in): on session start or via `stretchbreak today`, a one-line "Yesterday: 9 stretches · neck 3 · wrists 2 · eyes 2 · hips 2".
-- **Accessibility.** Cue text is always present, animations are never the sole carrier of meaning, and `media: text` disables motion entirely.
+- **Accessibility.** Everything is text, so it reads correctly in screen readers and at any zoom. The only motion is the Cowork countdown bar, which carries no meaning on its own.
 
 ---
 
@@ -249,7 +249,7 @@ Standard disclaimer for the product copy: this is general wellness guidance, not
 
 ## 7. Open source model
 
-**Licensing.** Code (core, adapters, scripts) is MIT. Stretch text, cues, and animation assets in the default pack are CC BY 4.0, so pack authors can reuse the visual style and copy with attribution. Community packs choose their own license for their content; the tooling doesn't care.
+**Licensing.** Code (core, adapters, scripts) is MIT. Stretch text in the default pack is CC BY 4.0, so pack authors can reuse and adapt the copy with attribution. Community packs choose their own license for their content; the tooling doesn't care.
 
 **Repo layout.**
 
@@ -259,20 +259,20 @@ stretchbreak/
 ├── adapters/
 │   ├── claude-code/     # hooks config, status line script, terminal renderer
 │   └── cowork/          # plugin manifest, skill, panel HTML, settings page
-├── packs/default/       # the curated default pack (pack.json + anim/)
+├── packs/default/       # the curated default pack (pack.json)
 ├── schema/              # JSON Schema for stretch records + pack.json + config.json
 ├── scripts/validate.js  # pack validator (also runs in CI and on `stretchbreak add`)
-├── docs/                # this spec, pack authoring guide, animation style guide
+├── docs/                # this spec, pack authoring + writing guide
 └── .github/workflows/   # validate packs on every PR
 ```
 
-**Take-what-you-want.** Each directory is independently useful: `core/scheduler` is a pure function with no I/O, `packs/default` is plain JSON + SVG, the terminal renderer takes any image, and the Cowork panel is a single HTML file. No cross-imports between adapters.
+**Take-what-you-want.** Each directory is independently useful: `core/scheduler` is a pure function with no I/O, `packs/default` is one JSON file, and each adapter is a small folder. No cross-imports between adapters.
 
 **Contribution paths, from lightest to heaviest.**
 
 1. *Use it.* Nothing to contribute; `overrides` covers most personalization.
-2. *Publish a pack.* A repo with `pack.json` + assets. Listed in `docs/PACKS.md` via PR (an awesome-list, not a registry, to keep it zero-infra).
-3. *Improve the default pack.* PR against `packs/default`. Must pass the validator and the CONTRIBUTING criteria: widely taught, low-risk, correct `contra` tags, a `counter` field, and an animation in the house style.
+2. *Publish a pack.* A repo with a `pack.json`. Listed in `docs/PACKS.md` via PR (an awesome-list, not a registry, to keep it zero-infra).
+3. *Improve the default pack.* PR against `packs/default`. Must pass the validator and the CONTRIBUTING criteria: widely taught, low-risk, correct `contra` tags, a `counter` field, and text that meets the writing standard (§4.3).
 4. *Core / adapters.* Normal code PRs. New surfaces (Cursor, VS Code, Zed, a menu-bar app) are welcome as new adapter directories following the `pick`/`done` contract.
 
 **Governance for now.** Maintainer-reviewed; small enough that a CODEOWNERS file is sufficient. Revisit if community packs take off.
@@ -282,9 +282,8 @@ stretchbreak/
 ## 8. Open questions
 
 1. **Hook coverage in Cowork.** Confirm whether Cowork exposes lifecycle hooks; if so the Cowork adapter collapses to the same script as CC.
-2. **Terminal image support matrix.** Verify inline rendering on iTerm2, Kitty, WezTerm, Ghostty, and confirm VS Code's integrated terminal behavior (likely status-line fallback).
-3. **Animation pipeline.** Author in one format (probably SVG with CSS keyframes) and render GIFs with a headless browser at build time.
-4. **Name.** "StretchBreak" is a placeholder; something that nods to the "thinking" moment might be better (Think & Stretch, Idle Hands, Pause Posture…).
+2. **Translations.** The record format is language-agnostic (`pack.language`), but the scheduler currently assumes one active language. Decide whether a translated pack replaces the default or sits beside it.
+3. **Name.** "StretchBreak" is a placeholder; something that nods to the "thinking" moment might be better.
 
 ---
 
@@ -292,9 +291,9 @@ stretchbreak/
 
 | # | Deliverable | Notes |
 |---|---|---|
-| M0 | This spec + `library.json` (20 stretches) | ✅ this document |
-| M1 | Core CLI: `pick`, `done`, `snooze`, `today`; config + history; scheduler with tests | Node, no deps |
-| M2 | Claude Code adapter: hooks config, status line, text + URL modes | Testable in your own setup |
-| M3 | Animation set: 20 SVG loops in one style + GIF renders | Style exploration first |
-| M4 | Inline-image mode for supported terminals | After the support matrix |
-| M5 | Cowork plugin: 3 skills + CLI + inline card | ✅ `adapters/cowork` (v0.1) |
+| M0 | Spec + default pack (20 stretches, full text) | ✅ |
+| M1 | Core: scheduler with tests; pack validator | ✅ |
+| M2 | Cowork plugin: 3 skills + CLI + inline text card | ✅ `adapters/cowork` (v0.1) |
+| M3 | Claude Code adapter: hooks, status line, transcript steps | Next |
+| M4 | Pack install commands (`add github:…`) and `docs/PACKS.md` community list | After M3 |
+| M5 | First translated pack as a worked example | Community |

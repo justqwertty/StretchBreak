@@ -27,7 +27,7 @@ Install the resulting `.plugin` file in Cowork.
 
 ## How the card is rendered
 
-`sb.js show` prints one JSON line, a `---` separator, then a self-contained HTML fragment styled with Cowork's CSS variables (light and dark). The skill hands that fragment to Cowork's inline widget renderer; if that tool is unavailable in a session it falls back to a one-line text cue. Rendering is done by the script rather than by the model so every card looks the same.
+`sb.js show` prints one JSON line, a `---` separator, then a self-contained HTML fragment (cue, numbered steps, Feel and Avoid lines, countdown bar) styled with Cowork's CSS variables (light and dark). The skill hands that fragment to Cowork's inline widget renderer; if that tool is unavailable in a session it prints the same content as plain text. Rendering is done by the script rather than by the model so every card looks the same and the instructions are never paraphrased.
 
 ## Testing the CLI without Cowork
 

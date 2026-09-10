@@ -1,10 +1,11 @@
 {
   "name": "default",
-  "version": "0.1.0",
-  "description": "The curated default pack: conservative, widely taught desk stretches covering neck, shoulders, upper/lower back, wrists, hands, hips, eyes and full body.",
+  "version": "0.2.0",
+  "description": "Curated default pack: conservative, widely taught desk stretches for neck, shoulders, back, wrists, hands, hips, eyes and full body. Text-only, written to be followed from the screen.",
   "author": "StretchBreak contributors",
   "license": "CC-BY-4.0",
   "homepage": "https://github.com/stretchbreak/stretchbreak",
+  "language": "en",
   "stretches": [
     {
       "id": "blink-reset",
@@ -13,18 +14,17 @@
       "posture": "either",
       "duration_s": 8,
       "tier": "micro",
-      "cue": "Close your eyes, then blink slowly 5 times.",
+      "cue": "Close your eyes for 2 seconds, then blink slowly and fully 5 times.",
       "steps": [
-        "Close eyes fully for 2 seconds.",
-        "Blink slowly and completely 5 times.",
-        "Notice if the screen looks sharper."
+        "Close both eyes fully and keep them closed for a slow count of two.",
+        "Open, then blink five times, slowly enough that the lids fully meet each time.",
+        "Let your gaze rest on the screen again and notice whether it looks slightly sharper."
       ],
+      "feel": "A light film of moisture spreading across the eyes; screen text looks crisper afterwards.",
+      "avoid": "Don't squeeze the eyes shut hard. This is a gentle rewetting, not a squint.",
       "counter": "reduced-blink-rate",
       "hands_free": true,
-      "contra": [],
-      "media": {
-        "anim": "blink-reset.svg"
-      }
+      "contra": []
     },
     {
       "id": "shoulder-drop",
@@ -33,20 +33,20 @@
       "posture": "either",
       "duration_s": 8,
       "tier": "micro",
-      "cue": "Shrug up to your ears, hold 3s, let them fall.",
+      "cue": "Shrug both shoulders up toward your ears, hold 3 seconds, then let them fall.",
       "steps": [
-        "Lift both shoulders toward your ears.",
-        "Hold 3 seconds.",
-        "Exhale and let them drop completely. Repeat once."
+        "Without moving your hands, lift both shoulders straight up toward your ears as high as they go.",
+        "Hold there for a count of three while breathing in.",
+        "Breathe out and let the shoulders drop all at once, as if the strings holding them were cut.",
+        "Repeat once. Leave the shoulders where they land; that's lower than where they were."
       ],
+      "feel": "Tension building in the tops of the shoulders on the shrug, then a noticeable release and a heavier, lower resting position.",
+      "avoid": "Don't roll the shoulders forward or back; the movement is straight up and straight down.",
       "counter": "trap-tension",
       "hands_free": true,
       "contra": [
         "shoulder-injury"
-      ],
-      "media": {
-        "anim": "shoulder-drop.svg"
-      }
+      ]
     },
     {
       "id": "finger-spread",
@@ -55,18 +55,18 @@
       "posture": "either",
       "duration_s": 10,
       "tier": "micro",
-      "cue": "Spread fingers wide 5s, soft fist 5s.",
+      "cue": "Hands off the keys. Spread fingers wide for 5 seconds, then curl into a soft fist for 5.",
       "steps": [
-        "Lift hands off the keyboard.",
-        "Spread fingers as wide as they go, hold 5 seconds.",
-        "Curl into a loose fist, hold 5 seconds."
+        "Lift both hands a few centimetres off the keyboard and mouse, palms facing down.",
+        "Spread all ten fingers as wide apart as they will go, including the thumbs, and hold for a count of five.",
+        "Curl the fingers into a loose fist with the thumb outside, and hold for a count of five.",
+        "Shake the hands out once and return to the keys."
       ],
+      "feel": "A stretch across the palm and between the fingers on the spread; warmth in the fingers afterwards.",
+      "avoid": "Don't clench the fist tightly. The fist is soft, just enough to close the hand.",
       "counter": "static-grip",
       "hands_free": true,
-      "contra": [],
-      "media": {
-        "anim": "finger-spread.svg"
-      }
+      "contra": []
     },
     {
       "id": "jaw-release",
@@ -75,18 +75,18 @@
       "posture": "either",
       "duration_s": 10,
       "tier": "micro",
-      "cue": "Unclench jaw, tongue off the roof of your mouth, breathe out.",
+      "cue": "Let your teeth part, rest the tongue behind the lower teeth, and breathe out slowly.",
       "steps": [
-        "Let your teeth part slightly.",
-        "Rest tongue behind lower teeth.",
-        "Take one slow breath out."
+        "Notice whether your top and bottom teeth are touching. If they are, let the jaw drop until they're a few millimetres apart.",
+        "Move the tongue off the roof of the mouth and rest its tip behind the lower front teeth.",
+        "Take one slow breath in through the nose and a longer breath out through the mouth, letting the jaw hang.",
+        "Keep the teeth apart as you go back to work."
       ],
+      "feel": "The muscles at the hinge of the jaw, just in front of the ears, softening. Often the shoulders drop slightly too.",
+      "avoid": "Don't push the jaw forward or open the mouth wide. This is a release, not a stretch.",
       "counter": "focus-clenching",
       "hands_free": true,
-      "contra": [],
-      "media": {
-        "anim": "jaw-release.svg"
-      }
+      "contra": []
     },
     {
       "id": "far-focus",
@@ -95,18 +95,18 @@
       "posture": "either",
       "duration_s": 20,
       "tier": "short",
-      "cue": "Look at something 20 ft away for 20s.",
+      "cue": "Look at the farthest thing you can see for 20 seconds, blinking normally.",
       "steps": [
-        "Pick the farthest object you can see (window, end of the room).",
-        "Rest your gaze there for 20 seconds.",
-        "Blink normally."
+        "Find the most distant object in view: something out a window, or the far wall of the room. Six metres or more is ideal.",
+        "Rest your gaze on one small detail of it, such as a leaf, a sign, or a corner.",
+        "Keep looking for a slow count of twenty. Blink normally; don't stare.",
+        "Bring your eyes back to the screen and let them refocus before reading."
       ],
+      "feel": "A slight loosening around the eyes as the focusing muscles relax. The screen may look briefly blurry when you return; that's the muscles resetting.",
+      "avoid": "Don't look at another screen or a phone. The point is real distance.",
       "counter": "accommodative-strain",
       "hands_free": true,
-      "contra": [],
-      "media": {
-        "anim": "far-focus.svg"
-      }
+      "contra": []
     },
     {
       "id": "chin-tuck",
@@ -115,20 +115,20 @@
       "posture": "either",
       "duration_s": 20,
       "tier": "short",
-      "cue": "Glide chin straight back (double chin), hold 5s × 3.",
+      "cue": "Glide your head straight back so you make a double chin. Hold 5 seconds, release. Three times.",
       "steps": [
-        "Sit tall, eyes level.",
-        "Slide your head straight back without tilting, making a double chin.",
-        "Hold 5 seconds, release. Repeat 3 times."
+        "Sit tall with your eyes level and the screen straight ahead.",
+        "Without tilting your head up or down, slide it straight backwards, as if someone were gently pushing your chin toward your throat. You'll make a double chin; that's correct.",
+        "Hold for a slow count of five. Keep breathing.",
+        "Release forward to neutral, not past it. Repeat three times."
       ],
+      "feel": "A stretch at the base of the skull and the back of the neck, and light work in the muscles at the front of the throat.",
+      "avoid": "Don't nod the chin down toward the chest or look up. The movement is a horizontal glide. Stop if you feel any sharp pain or tingling.",
       "counter": "forward-head",
       "hands_free": true,
       "contra": [
         "neck-injury"
-      ],
-      "media": {
-        "anim": "chin-tuck.svg"
-      }
+      ]
     },
     {
       "id": "neck-side-bend",
@@ -137,20 +137,21 @@
       "posture": "either",
       "duration_s": 30,
       "tier": "short",
-      "cue": "Ear toward shoulder, opposite shoulder down. 15s each side.",
+      "cue": "Drop your right ear toward your right shoulder, keeping the left shoulder down. 15 seconds, then switch.",
       "steps": [
-        "Drop right ear toward right shoulder.",
-        "Keep left shoulder pressed down. Hold 15 seconds.",
-        "Switch sides."
+        "Sit tall. Let both shoulders hang low and relaxed.",
+        "Tilt your head to the right, bringing the right ear toward the right shoulder. Don't lift the shoulder to meet it.",
+        "If you want more, reach the left hand down toward the floor beside the chair to anchor that shoulder.",
+        "Hold for a slow count of fifteen, breathing normally, then return to centre.",
+        "Repeat on the left side."
       ],
+      "feel": "A long pull down the side of the neck into the top of the opposite shoulder.",
+      "avoid": "Don't pull the head with your hand and don't rotate the chin; keep your nose pointing forward. Stop if you feel pinching on the side you're bending toward.",
       "counter": "upper-trap-shortening",
       "hands_free": true,
       "contra": [
         "neck-injury"
-      ],
-      "media": {
-        "anim": "neck-side-bend.svg"
-      }
+      ]
     },
     {
       "id": "prayer-stretch",
@@ -159,20 +160,20 @@
       "posture": "either",
       "duration_s": 20,
       "tier": "short",
-      "cue": "Palms together at chest, lower hands toward waist. Hold 20s.",
+      "cue": "Press your palms together in front of your chest, then lower the hands toward your waist until the forearms pull. Hold 20 seconds.",
       "steps": [
-        "Press palms together in front of your chest, fingers up.",
-        "Keep palms touching and lower hands toward your waist until you feel the forearms.",
-        "Hold 20 seconds."
+        "Press your palms and fingers flat together in front of your chest, fingers pointing up, elbows out to the sides.",
+        "Keeping the palms pressed together, slowly lower both hands toward your belly button.",
+        "Stop when you feel the stretch along the inside of the forearms, usually when the wrists are around chest height.",
+        "Hold for a slow count of twenty, breathing normally, then release."
       ],
+      "feel": "A stretch along the inside of both forearms, from the wrist toward the elbow.",
+      "avoid": "Don't let the heels of the hands separate; the stretch comes from keeping them together. Stop if you feel it in the wrist joint itself rather than the forearm muscles.",
       "counter": "forearm-flexor-shortening",
       "hands_free": false,
       "contra": [
         "wrist-injury"
-      ],
-      "media": {
-        "anim": "prayer-stretch.svg"
-      }
+      ]
     },
     {
       "id": "wrist-extensor-stretch",
@@ -181,20 +182,20 @@
       "posture": "either",
       "duration_s": 30,
       "tier": "short",
-      "cue": "Arm out, palm down, gently pull fingers toward you. 15s each.",
+      "cue": "Arm straight out, palm down. With the other hand, gently bend the fingers down and toward you. 15 seconds each side.",
       "steps": [
-        "Extend right arm, palm facing down.",
-        "With the left hand, gently pull the fingers back toward your body.",
-        "Hold 15 seconds. Switch."
+        "Extend your right arm straight in front of you at shoulder height, palm facing the floor, fingers relaxed.",
+        "With your left hand, take hold of the back of the right hand and gently bend it downward so the fingers point at the floor.",
+        "Add a little pressure, drawing the fingers back toward your body until you feel the top of the forearm stretch.",
+        "Hold for a slow count of fifteen, then release and switch arms."
       ],
+      "feel": "A stretch along the top of the forearm, the side that faces up when you use a mouse.",
+      "avoid": "Keep the elbow straight but not locked. Don't yank; the pressure is light and steady.",
       "counter": "mouse-hand-extensor-load",
       "hands_free": false,
       "contra": [
         "wrist-injury"
-      ],
-      "media": {
-        "anim": "wrist-extensor-stretch.svg"
-      }
+      ]
     },
     {
       "id": "scap-squeeze",
@@ -203,18 +204,19 @@
       "posture": "either",
       "duration_s": 30,
       "tier": "short",
-      "cue": "Pull shoulder blades together 5s, release. × 5.",
+      "cue": "Draw your shoulder blades together and slightly down, hold 5 seconds, release. Five times.",
       "steps": [
-        "Sit tall, arms relaxed.",
-        "Draw shoulder blades together and slightly down, as if holding a pencil between them.",
-        "Hold 5 seconds, release fully. Repeat 5 times."
+        "Sit tall with arms relaxed at your sides or resting on your lap.",
+        "Pull both shoulder blades toward each other and slightly downward, as if trying to hold a pencil between them.",
+        "Hold for a slow count of five without lifting the shoulders toward the ears.",
+        "Release completely and let the shoulders round forward for a moment.",
+        "Repeat five times."
       ],
+      "feel": "The muscles between the shoulder blades working; the chest opening slightly.",
+      "avoid": "Don't arch the lower back or push the ribs forward. The movement is only in the shoulder blades.",
       "counter": "rounded-shoulders",
       "hands_free": true,
-      "contra": [],
-      "media": {
-        "anim": "scap-squeeze.svg"
-      }
+      "contra": []
     },
     {
       "id": "seated-spinal-twist",
@@ -223,21 +225,22 @@
       "posture": "seated",
       "duration_s": 30,
       "tier": "short",
-      "cue": "Hand on opposite knee, twist and look behind. 15s each side.",
+      "cue": "Right hand on left knee, left hand on the chair back. Rotate left and look over your shoulder. 15 seconds each side.",
       "steps": [
-        "Sit tall, feet flat.",
-        "Place right hand on left knee and left hand on the chair back.",
-        "Rotate torso left, look over the shoulder. Hold 15 seconds. Switch."
+        "Sit tall with both feet flat on the floor and hips square to the desk.",
+        "Place your right hand on your left knee and reach your left hand behind you to the back or side of the chair.",
+        "Breathe in to sit taller, then breathe out and rotate your torso to the left, letting the head follow so you look over the left shoulder.",
+        "Hold for a slow count of fifteen. With each exhale, let the twist deepen a little.",
+        "Return to centre and repeat to the right."
       ],
+      "feel": "A twist through the middle and lower back and a stretch across the outside of the hip you're turning away from.",
+      "avoid": "Keep both sitting bones on the chair; don't let one hip lift. Turn from the ribcage, not by yanking with the arms.",
       "counter": "static-lumbar-posture",
       "hands_free": false,
       "contra": [
         "back-injury",
         "pregnancy"
-      ],
-      "media": {
-        "anim": "seated-spinal-twist.svg"
-      }
+      ]
     },
     {
       "id": "thoracic-extension",
@@ -246,21 +249,22 @@
       "posture": "seated",
       "duration_s": 40,
       "tier": "medium",
-      "cue": "Hands behind head, arch upper back over the chair, look up. 15s × 2.",
+      "cue": "Hands behind your head, arch your upper back over the top of the chair and look up. 15 seconds, twice.",
       "steps": [
-        "Interlace fingers behind your head.",
-        "Lean back over the top of the chair back, opening the chest and looking slightly upward.",
-        "Hold 15 seconds, sit up. Repeat once."
+        "Scoot down so the top edge of the chair back sits just below your shoulder blades. If the chair back is very low, skip to the next stretch.",
+        "Interlace your fingers behind your head and let the elbows open wide.",
+        "Breathe in, then breathe out and gently lean back over the chair edge, letting the chest lift toward the ceiling and the eyes drift upward.",
+        "Hold for a slow count of fifteen, breathing normally, then use your stomach muscles to come back up.",
+        "Rest for a breath and repeat once."
       ],
+      "feel": "The middle of the upper back opening where it usually rounds; the chest and the front of the shoulders stretching.",
+      "avoid": "Don't pull on the head with the hands; they only support it. Don't let the lower back arch; the movement is above the ribs. Stop if you feel dizzy.",
       "counter": "thoracic-kyphosis",
       "hands_free": false,
       "contra": [
         "back-injury",
         "neck-injury"
-      ],
-      "media": {
-        "anim": "thoracic-extension.svg"
-      }
+      ]
     },
     {
       "id": "seated-cat-cow",
@@ -269,19 +273,19 @@
       "posture": "seated",
       "duration_s": 45,
       "tier": "medium",
-      "cue": "Hands on knees. Arch and look up, then round and look down. Slow, 45s.",
+      "cue": "Hands on knees. Breathe in and arch, lifting the chest. Breathe out and round, tucking the chin. Slowly, for 45 seconds.",
       "steps": [
-        "Hands on knees, feet flat.",
-        "Inhale: arch the back, lift the chest, look up.",
-        "Exhale: round the spine, tuck the chin.",
-        "Keep alternating slowly for 45 seconds."
+        "Sit toward the front of the chair with feet flat and hands resting on your knees.",
+        "Breathe in: tilt the pelvis forward, arch the back, lift the chest and let the gaze rise. This is the 'cow'.",
+        "Breathe out: tuck the tailbone under, round the whole spine, drop the chin toward the chest and push the hands into the knees. This is the 'cat'.",
+        "Keep moving between the two with your breath, taking about four seconds each way.",
+        "Finish in a neutral, tall position."
       ],
+      "feel": "Each segment of the spine moving in turn; a gentle stretch across the lower back on the round and across the belly on the arch.",
+      "avoid": "Don't rush. The value is in the slow, full movement, not the range.",
       "counter": "lumbar-stiffness",
       "hands_free": false,
-      "contra": [],
-      "media": {
-        "anim": "seated-cat-cow.svg"
-      }
+      "contra": []
     },
     {
       "id": "chest-opener",
@@ -290,20 +294,21 @@
       "posture": "either",
       "duration_s": 40,
       "tier": "medium",
-      "cue": "Clasp hands behind you, lift and open the chest. 20s × 2.",
+      "cue": "Clasp your hands behind your back, straighten the arms, lift the hands away and open the chest. 20 seconds, twice.",
       "steps": [
-        "Interlace fingers behind your lower back (or hold a wrist).",
-        "Straighten arms, gently lift hands away from you and lift the chest.",
-        "Hold 20 seconds, release. Repeat once."
+        "Sit or stand tall. Reach both arms behind you and interlace your fingers, palms facing each other. If you can't clasp, hold one wrist.",
+        "Straighten the arms and roll the shoulders back and down.",
+        "Gently lift the clasped hands away from your body while lifting the chest toward the ceiling. Keep the chin level.",
+        "Hold for a slow count of twenty, breathing into the chest, then release and let the arms hang.",
+        "Rest for a breath and repeat once."
       ],
+      "feel": "A stretch across the front of the shoulders and the chest; the shoulder blades drawing together.",
+      "avoid": "Don't push the head forward or arch the lower back to lift the hands higher. Keep the movement in the shoulders.",
       "counter": "pec-shortening",
       "hands_free": false,
       "contra": [
         "shoulder-injury"
-      ],
-      "media": {
-        "anim": "chest-opener.svg"
-      }
+      ]
     },
     {
       "id": "overhead-reach",
@@ -312,20 +317,21 @@
       "posture": "either",
       "duration_s": 40,
       "tier": "medium",
-      "cue": "Reach one arm overhead and lean the other way. 20s each side.",
+      "cue": "Reach your right arm straight up and lean to the left, keeping both hips down. 20 seconds each side.",
       "steps": [
-        "Reach right arm straight up.",
-        "Lean to the left, keeping both hips down. Feel the right side of the torso.",
-        "Hold 20 seconds. Switch sides."
+        "Sit or stand tall with both hips square and, if seated, both sitting bones pressed into the chair.",
+        "Reach your right arm straight up toward the ceiling, palm facing inward.",
+        "Lean your upper body to the left, reaching the right hand up and over. Keep the right hip anchored down.",
+        "Hold for a slow count of twenty, breathing into the right ribs, then come back up.",
+        "Repeat with the left arm, leaning right."
       ],
+      "feel": "A long stretch down the side of the torso from the armpit to the hip, and the ribs on that side opening with each breath.",
+      "avoid": "Don't twist or let the chest turn toward the floor; keep facing forward. Don't let the opposite hip lift.",
       "counter": "lateral-trunk-stiffness",
       "hands_free": false,
       "contra": [
         "shoulder-injury"
-      ],
-      "media": {
-        "anim": "overhead-reach.svg"
-      }
+      ]
     },
     {
       "id": "seated-figure-four",
@@ -334,21 +340,22 @@
       "posture": "seated",
       "duration_s": 50,
       "tier": "medium",
-      "cue": "Ankle on opposite knee, hinge forward with a flat back. 25s each side.",
+      "cue": "Rest your right ankle on your left knee, sit tall, then hinge forward from the hips until the outer hip stretches. 25 seconds each side.",
       "steps": [
-        "Place right ankle on left knee.",
-        "Keep back straight and hinge forward from the hips until you feel the outer hip.",
-        "Hold 25 seconds. Switch."
+        "Sit toward the front of the chair with both feet flat.",
+        "Lift your right foot and rest the outside of the right ankle on top of the left knee, so the legs make a figure four. Let the right knee drop out to the side.",
+        "Sit as tall as you can. Many people already feel the stretch here; if so, stay.",
+        "For more, keep the back straight and hinge forward from the hips, moving the chest toward the shin.",
+        "Hold for a slow count of twenty-five, then sit up, lower the foot and repeat on the other side."
       ],
+      "feel": "A deep stretch in the outer hip and buttock of the lifted leg.",
+      "avoid": "Don't round the back to get lower; the stretch comes from the hinge, not the slump. Don't press down on the raised knee. Skip this side if the knee complains.",
       "counter": "glute-piriformis-tightness",
       "hands_free": false,
       "contra": [
         "hip-injury",
         "knee-injury"
-      ],
-      "media": {
-        "anim": "seated-figure-four.svg"
-      }
+      ]
     },
     {
       "id": "standing-hip-flexor",
@@ -357,65 +364,67 @@
       "posture": "standing",
       "duration_s": 60,
       "tier": "long",
-      "cue": "Stand, step one foot back, tuck the pelvis, sink forward. 25s each side.",
+      "cue": "Stand, step the right foot back into a half lunge, tuck the tailbone under and lean forward until the front hip stretches. 25s each side.",
       "steps": [
-        "Stand and step the right foot back into a half lunge.",
-        "Tuck the tailbone under and shift weight gently forward. Feel the front of the right hip.",
-        "Hold 25 seconds. Switch sides."
+        "Stand up and step behind your chair, holding its back lightly for balance if useful.",
+        "Step your right foot back about one stride length, keeping the left foot flat and the left knee over the ankle.",
+        "Keep the torso upright. Tuck the tailbone under, as if pulling the belt buckle up toward the chin. This alone often brings the stretch.",
+        "Shift your weight gently forward onto the front foot until you feel a stretch at the front of the right hip and thigh. Squeeze the right buttock to deepen it.",
+        "Hold for a slow count of twenty-five, breathing normally, then switch legs."
       ],
+      "feel": "A stretch running from the front of the hip down the front of the thigh on the back leg.",
+      "avoid": "Don't let the lower back arch; if it does, tuck the tailbone more and lunge less deeply. Keep the front knee behind the toes.",
       "counter": "psoas-shortening",
       "hands_free": false,
       "contra": [
         "hip-injury",
         "knee-injury"
-      ],
-      "media": {
-        "anim": "standing-hip-flexor.svg"
-      }
+      ]
     },
     {
       "id": "doorway-pec-stretch",
-      "name": "Doorway pec stretch",
+      "name": "Doorway chest stretch",
       "area": "shoulders",
       "posture": "standing",
       "duration_s": 60,
       "tier": "long",
-      "cue": "Forearms on a doorframe, elbows at shoulder height, step through. 30s × 2.",
+      "cue": "Stand in a doorway with forearms on the frame at shoulder height and step one foot through until the chest opens. 30 seconds, twice.",
       "steps": [
-        "Stand in a doorway, forearms on each side of the frame, elbows at shoulder height.",
-        "Step one foot through until you feel the chest open.",
-        "Hold 30 seconds, rest, repeat."
+        "Find a doorway. Stand in the middle of it, feet together.",
+        "Bend both elbows to ninety degrees and place the forearms flat against each side of the frame, elbows at shoulder height.",
+        "Step one foot forward through the doorway and lean your body gently forward until you feel the chest and the front of the shoulders stretch.",
+        "Hold for a slow count of thirty, breathing deeply.",
+        "Step back, drop the arms and shake them out. Repeat once, stepping through with the other foot."
       ],
+      "feel": "A broad stretch across the chest and the front of both shoulders.",
+      "avoid": "Don't let the shoulders rise toward the ears or the head poke forward. Lower the elbows a little if you feel pinching in the shoulder joint. If there's no doorway nearby, do the seated chest opener instead.",
       "counter": "pec-shortening",
       "hands_free": false,
       "contra": [
         "shoulder-injury"
-      ],
-      "media": {
-        "anim": "doorway-pec-stretch.svg"
-      }
+      ]
     },
     {
       "id": "calf-raise-walk",
-      "name": "Calf raises + short walk",
+      "name": "Calf raises and a short walk",
       "area": "full-body",
       "posture": "standing",
       "duration_s": 90,
       "tier": "long",
-      "cue": "Stand. 15 slow calf raises, then walk to the farthest wall and back.",
+      "cue": "Stand. Rise onto your toes and lower slowly, 15 times. Then walk to the farthest point in the room and back.",
       "steps": [
-        "Stand behind your chair, hand on it for balance.",
-        "Rise onto your toes and lower slowly, 15 times.",
-        "Walk to the farthest point in the room and back, looking far ahead."
+        "Stand up behind your chair with a hand resting on it for balance.",
+        "Rise up onto the balls of both feet as high as you can, then lower the heels slowly, taking about two seconds to come down. Do fifteen.",
+        "Let go of the chair and walk to the farthest point you can reach, such as the end of the room or the hallway, looking ahead rather than at the floor.",
+        "Walk back and sit down, resettling yourself at the back of the chair."
       ],
+      "feel": "The calves working and warming; blood moving in the legs; usually a clearer head when you sit back down.",
+      "avoid": "Don't bounce at the top of the calf raise. The slow lowering is the useful part.",
       "counter": "prolonged-sitting-circulation",
       "hands_free": false,
       "contra": [
         "ankle-injury"
-      ],
-      "media": {
-        "anim": "calf-raise-walk.svg"
-      }
+      ]
     },
     {
       "id": "standing-forward-fold",
@@ -424,21 +433,22 @@
       "posture": "standing",
       "duration_s": 60,
       "tier": "long",
-      "cue": "Stand, soften knees, hang forward and let the head go. 30s, roll up slowly.",
+      "cue": "Stand, soften the knees, and hang forward with the head and arms heavy for 30 seconds. Roll up slowly.",
       "steps": [
-        "Stand with feet hip-width, knees slightly bent.",
-        "Hinge forward and let the arms and head hang heavy.",
-        "Breathe for 30 seconds, then roll up one vertebra at a time."
+        "Stand with feet hip-width apart and the knees slightly bent.",
+        "Breathe out and hinge forward from the hips, letting the arms, head and neck hang completely loose. Let the hands dangle toward the floor; they don't need to reach it.",
+        "Stay for a slow count of thirty, breathing into the back of the ribs. Gently nod and shake the head 'yes' and 'no' to make sure the neck is relaxed.",
+        "To come up, tuck the chin and roll up slowly, one vertebra at a time, the head arriving last.",
+        "Stand still for a breath before sitting down."
       ],
+      "feel": "A stretch through the whole back of the body, from the calves and hamstrings up the back to the neck, and a sense of the spine lengthening under its own weight.",
+      "avoid": "Don't lock the knees or force the hands to the floor. Come up slowly; if you feel light-headed at any point, bend the knees more and come up sooner.",
       "counter": "posterior-chain-stiffness",
       "hands_free": false,
       "contra": [
         "back-injury",
         "low-blood-pressure"
-      ],
-      "media": {
-        "anim": "standing-forward-fold.svg"
-      }
+      ]
     }
   ]
 }

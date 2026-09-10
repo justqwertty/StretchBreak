@@ -19,7 +19,9 @@ The default pack is deliberately conservative. A stretch belongs there if it is:
 - **Desk-shaped.** Doable in normal clothes, in a normal chair or standing beside it, in under two minutes, without equipment.
 - **Not a duplicate.** Check `counter` values: if the same habit is already covered at the same tier, argue for why yours is better or put it in a community pack.
 
-Every default-pack PR needs: the record, a house-style SVG loop in `anim/` (or a note that you'd like help with one), and a passing `node scripts/validate.js`. Text and assets you add are licensed CC BY 4.0.
+Every default-pack PR needs: the full record including `steps`, `feel` and `avoid` written to the standard in [docs/PACKS.md](docs/PACKS.md#writing-the-instructions), and a passing `node scripts/validate.js`. Text you add is licensed CC BY 4.0.
+
+Reviewers will try the stretch from your text alone, without looking anything up. If they can't do it correctly first time, the text isn't done.
 
 Specialized content (rehab protocols, yoga sequences, opinionated routines) goes in a community pack, not the default.
 

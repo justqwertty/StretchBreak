@@ -6,13 +6,13 @@ When Claude Code or Cowork is busy running a long tool call, you're sitting ther
 
 It never costs you time. Stretches only appear while the AI is already working, never block anything, and clear the moment it's ready.
 
-> Status: **early**. The spec, default stretch pack, scheduler, validator and a first Cowork plugin are here. The Claude Code adapter and the animation set are in progress. See [docs/SPEC.md](docs/SPEC.md) §9 for milestones.
+> Status: **early**. The spec, default stretch pack, scheduler, validator and a first Cowork plugin are here. The Claude Code adapter is next. See [docs/SPEC.md](docs/SPEC.md) §9 for milestones.
 
 ## How it works
 
 1. An adapter (a Claude Code hook, a Cowork plugin skill) notices the AI is about to do something slow and asks the core for a stretch, passing a rough wait estimate.
 2. The scheduler picks something the right length for the wait, rotating across body areas over the day, honoring your exclusions, frequency cap and quiet hours.
-3. The adapter shows it: a looping animation where it can, a one-line cue in the status line where it can't, or a link you can open.
+3. The adapter shows it as text: a one-line cue, numbered steps, what it should feel like, and what to avoid. Written to be followed from the screen; no pictures needed.
 4. When the AI finishes, it disappears.
 
 ```
@@ -34,7 +34,7 @@ Everything lives in `~/.stretchbreak/config.json` and is shared by every surface
   "exclude_tags": ["neck-injury"],           // skip anything contraindicated for you
   "posture": "seated",                       // never ask you to stand
   "quiet_hours": [["22:00", "08:00"]],
-  "media": "auto",                           // anim | gif | text | url | off
+  "verbosity": "steps",                      // cue | steps | full
   "packs": ["default", "./my-physio-pack"],  // add your own stretches
   "overrides": { "chin-tuck": { "duration_s": 30 } }
 }
@@ -42,7 +42,7 @@ Everything lives in `~/.stretchbreak/config.json` and is shared by every surface
 
 ## Add your own stretches
 
-Stretches come in **packs**: a folder with a `pack.json` and some SVG loops. Make one for yourself, your team, or publish it for everyone. The format is small and documented in [docs/PACKS.md](docs/PACKS.md); `node scripts/validate.js ./my-pack` tells you exactly what's wrong if anything is.
+Stretches come in **packs**: a folder with one `pack.json`. No images, no build step; if you can describe a stretch clearly you can write one. Make a pack for yourself, your team, or publish it for everyone. The format and the writing standard are in [docs/PACKS.md](docs/PACKS.md); `node scripts/validate.js ./my-pack` tells you exactly what's wrong if anything is.
 
 Community packs are listed in [docs/PACKS.md](docs/PACKS.md#community-packs). Open a PR to add yours.
 
@@ -51,7 +51,7 @@ Community packs are listed in [docs/PACKS.md](docs/PACKS.md#community-packs). Op
 Every directory stands alone:
 
 - `core/scheduler.js` — pure function, zero deps. Give it stretches, config, history and a wait estimate; get back a pick.
-- `packs/default/` — 20 conservative desk stretches as plain JSON + SVG, CC BY 4.0.
+- `packs/default/` — 20 conservative desk stretches, fully written out, as one JSON file. CC BY 4.0.
 - `schema/` — JSON Schema for stretch records, packs and config.
 - `scripts/validate.js` — the pack validator, also zero deps.
 - `adapters/cowork/` — a Cowork plugin (three skills + CLI); `adapters/cowork/build.sh` produces the installable `.plugin`.
@@ -74,4 +74,4 @@ This is general wellness guidance, not medical advice. If you have an injury or 
 
 ## License
 
-Code: [MIT](LICENSE). Default pack text and animations: [CC BY 4.0](packs/default/LICENSE). Community packs choose their own.
+Code: [MIT](LICENSE). Default pack text: [CC BY 4.0](packs/default/LICENSE). Community packs choose their own.

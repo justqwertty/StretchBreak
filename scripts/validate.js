@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 // Validates one or more StretchBreak packs. Zero dependencies.
-// Usage: node scripts/validate.js packs/default [packs/other ...]
+// Usage: node scripts/validate.js packs/default [packs/other ...] [--strict]
 //        node scripts/validate.js            (validates every folder under packs/)
+// The default pack is always validated in strict mode.
 //
 // Checks: pack.json shape, every stretch record against the schema rules,
-// tier/duration consistency, micro-tier hands_free, unique ids, and that
-// referenced media files exist in the pack folder.
+// tier/duration consistency, micro-tier hands_free, unique ids, and (with
+// --strict, used for the default pack) that feel and avoid are present.
+// StretchBreak is text-first: instructions are the product, so steps are required.
 
 const fs = require("fs");
 const path = require("path");
@@ -25,13 +27,13 @@ function tierFor(s) {
   return "long";
 }
 
-function validateStretch(s, i, packDir, errors) {
+function validateStretch(s, i, strict, errors) {
   const at = (f) => `stretches[${i}]${s && s.id ? ` (${s.id})` : ""}.${f}`;
   if (typeof s !== "object" || s === null) return errors.push(`stretches[${i}]: not an object`);
 
-  const required = ["id", "name", "area", "posture", "duration_s", "tier", "cue", "counter", "hands_free", "contra", "media"];
+  const required = ["id", "name", "area", "posture", "duration_s", "tier", "cue", "steps", "counter", "hands_free", "contra"];
   for (const k of required) if (!(k in s)) errors.push(`${at(k)}: missing`);
-  const allowed = new Set([...required, "steps", "tier_override"]);
+  const allowed = new Set([...required, "feel", "avoid", "media", "tier_override"]);
   for (const k of Object.keys(s)) if (!allowed.has(k)) errors.push(`${at(k)}: unknown field`);
 
   if (typeof s.id !== "string" || !KEBAB.test(s.id)) errors.push(`${at("id")}: must be kebab-case`);
@@ -40,14 +42,18 @@ function validateStretch(s, i, packDir, errors) {
   if (!POSTURES.includes(s.posture)) errors.push(`${at("posture")}: must be one of ${POSTURES.join(", ")}`);
   if (!Number.isInteger(s.duration_s) || s.duration_s < 3 || s.duration_s > 300) errors.push(`${at("duration_s")}: integer 3–300`);
   if (!TIERS.includes(s.tier)) errors.push(`${at("tier")}: must be one of ${TIERS.join(", ")}`);
-  if (typeof s.cue !== "string" || s.cue.length < 10 || s.cue.length > 90) errors.push(`${at("cue")}: 10–90 chars`);
+  if (typeof s.cue !== "string" || s.cue.length < 10 || s.cue.length > 140) errors.push(`${at("cue")}: 10–140 chars`);
   if (typeof s.counter !== "string" || !KEBAB.test(s.counter)) errors.push(`${at("counter")}: must be kebab-case`);
   if (typeof s.hands_free !== "boolean") errors.push(`${at("hands_free")}: must be boolean`);
   if (s.tier_override !== undefined && typeof s.tier_override !== "boolean") errors.push(`${at("tier_override")}: must be boolean`);
 
-  if (s.steps !== undefined) {
-    if (!Array.isArray(s.steps) || s.steps.length < 1 || s.steps.length > 6) errors.push(`${at("steps")}: array of 1–6 strings`);
-    else s.steps.forEach((st, j) => { if (typeof st !== "string" || st.length < 5) errors.push(`${at(`steps[${j}]`)}: string ≥5 chars`); });
+  if (!Array.isArray(s.steps) || s.steps.length < 2 || s.steps.length > 8) errors.push(`${at("steps")}: array of 2–8 strings`);
+  else s.steps.forEach((st, j) => { if (typeof st !== "string" || st.length < 15) errors.push(`${at(`steps[${j}]`)}: string ≥15 chars (write a full instruction)`); });
+  if (s.feel !== undefined && (typeof s.feel !== "string" || s.feel.length < 15 || s.feel.length > 240)) errors.push(`${at("feel")}: 15–240 chars`);
+  if (s.avoid !== undefined && (typeof s.avoid !== "string" || s.avoid.length < 15 || s.avoid.length > 300)) errors.push(`${at("avoid")}: 15–300 chars`);
+  if (strict) {
+    if (s.feel === undefined) errors.push(`${at("feel")}: required in the default pack (what the user should feel)`);
+    if (s.avoid === undefined) errors.push(`${at("avoid")}: required in the default pack (mistakes and stop conditions)`);
   }
 
   if (!Array.isArray(s.contra)) errors.push(`${at("contra")}: must be an array`);
@@ -60,19 +66,12 @@ function validateStretch(s, i, packDir, errors) {
     }
   }
 
-  if (typeof s.media !== "object" || s.media === null || Object.keys(s.media).length === 0) {
-    errors.push(`${at("media")}: needs at least one of anim, gif, url`);
-  } else {
-    for (const k of Object.keys(s.media)) if (!["anim", "gif", "url"].includes(k)) errors.push(`${at(`media.${k}`)}: unknown key`);
-    if (s.media.anim !== undefined) {
-      if (!/\.svg$/.test(s.media.anim)) errors.push(`${at("media.anim")}: must end in .svg`);
-      else if (packDir && !fs.existsSync(path.join(packDir, "anim", s.media.anim))) errors.push(`${at("media.anim")}: file anim/${s.media.anim} not found`);
+  if (s.media !== undefined) {
+    if (typeof s.media !== "object" || s.media === null) errors.push(`${at("media")}: must be an object`);
+    else {
+      for (const k of Object.keys(s.media)) if (k !== "url") errors.push(`${at(`media.${k}`)}: unknown key (only url is supported; StretchBreak is text-first)`);
+      if (s.media.url !== undefined && !/^https?:\/\//.test(s.media.url)) errors.push(`${at("media.url")}: must be http(s) URL`);
     }
-    if (s.media.gif !== undefined) {
-      if (!/\.gif$/.test(s.media.gif)) errors.push(`${at("media.gif")}: must end in .gif`);
-      else if (packDir && !fs.existsSync(path.join(packDir, "gif", s.media.gif))) errors.push(`${at("media.gif")}: file gif/${s.media.gif} not found`);
-    }
-    if (s.media.url !== undefined && !/^https?:\/\//.test(s.media.url)) errors.push(`${at("media.url")}: must be http(s) URL`);
   }
 
   // Cross-field rules
@@ -83,7 +82,7 @@ function validateStretch(s, i, packDir, errors) {
   if (s.tier === "micro" && s.posture === "standing") errors.push(`${at("posture")}: micro-tier stretches can't require standing`);
 }
 
-function validatePack(packDir, { checkMedia = true } = {}) {
+function validatePack(packDir, { strict = false } = {}) {
   const errors = [];
   const file = path.join(packDir, "pack.json");
   if (!fs.existsSync(file)) return [`${file}: not found`];
@@ -106,7 +105,7 @@ function validatePack(packDir, { checkMedia = true } = {}) {
   else {
     const ids = new Set();
     pack.stretches.forEach((s, i) => {
-      validateStretch(s, i, checkMedia ? packDir : null, errors);
+      validateStretch(s, i, strict, errors);
       if (s && typeof s.id === "string") {
         if (ids.has(s.id)) errors.push(`stretches[${i}].id: duplicate "${s.id}"`);
         ids.add(s.id);
@@ -118,7 +117,7 @@ function validatePack(packDir, { checkMedia = true } = {}) {
 
 function main() {
   const args = process.argv.slice(2);
-  const checkMedia = !args.includes("--no-media");
+  const strict = args.includes("--strict");
   let dirs = args.filter((a) => !a.startsWith("--"));
   if (dirs.length === 0) {
     const root = path.join(__dirname, "..", "packs");
@@ -126,7 +125,7 @@ function main() {
   }
   let failed = false;
   for (const dir of dirs) {
-    const errs = validatePack(dir, { checkMedia });
+    const errs = validatePack(dir, { strict: strict || path.basename(dir) === "default" });
     if (errs.length) {
       failed = true;
       console.error(`✗ ${dir}`);
