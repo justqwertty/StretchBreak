@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Jaw release (placeholder)">
+  <!-- PLACEHOLDER: replace with a looping line-figure animation. See docs/ANIMATION-STYLE.md -->
+  <style>
+    .stroke{fill:none;stroke:currentColor;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+    .pulse{animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+    text{font:600 13px system-ui,sans-serif;fill:currentColor;text-anchor:middle}
+  </style>
+  <g class="pulse">
+    <circle class="stroke" cx="100" cy="52" r="18"/>
+    <path class="stroke" d="M100 70v55M100 90l-32 22M100 90l32 22M100 125l-22 40M100 125l22 40"/>
+  </g>
+  <text x="100" y="190">Jaw release</text>
+</svg>
