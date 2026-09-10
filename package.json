@@ -1,0 +1,12 @@
+{
+  "name": "stretchbreak",
+  "version": "0.1.0",
+  "description": "Turn AI thinking time into a quick ergonomic stretch. Claude Code + Cowork.",
+  "license": "MIT",
+  "private": true,
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "test": "node --test scripts/*.test.js core/*.test.js",
+    "validate": "node scripts/validate.js"
+  }
+}

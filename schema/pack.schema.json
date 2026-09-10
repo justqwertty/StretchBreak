@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stretchbreak.dev/schema/pack.schema.json",
+  "title": "StretchBreak pack",
+  "type": "object",
+  "required": ["name", "version", "description", "license", "stretches"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Kebab-case pack name; becomes the id namespace."
+    },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "description": { "type": "string", "minLength": 10, "maxLength": 200 },
+    "author": { "type": "string" },
+    "license": { "type": "string", "description": "SPDX identifier for the pack's text and assets, e.g. CC-BY-4.0, CC0-1.0." },
+    "homepage": { "type": "string", "format": "uri" },
+    "language": { "type": "string", "default": "en", "description": "BCP 47 tag for cue/step text." },
+    "stretches": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "stretch.schema.json" }
+    }
+  }
+}

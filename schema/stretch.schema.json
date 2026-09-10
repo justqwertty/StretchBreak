@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stretchbreak.dev/schema/stretch.schema.json",
+  "title": "StretchBreak stretch record",
+  "type": "object",
+  "required": ["id", "name", "area", "posture", "duration_s", "tier", "cue", "counter", "hands_free", "contra", "media"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Kebab-case, unique within the pack. Namespaced as <pack>/<id> at load time."
+    },
+    "name": { "type": "string", "minLength": 3, "maxLength": 40 },
+    "area": {
+      "enum": ["neck", "shoulders", "upper-back", "wrists", "hands", "hips", "lower-back", "eyes", "full-body"]
+    },
+    "posture": { "enum": ["seated", "standing", "either"] },
+    "duration_s": { "type": "integer", "minimum": 3, "maximum": 300 },
+    "tier": {
+      "enum": ["micro", "short", "medium", "long"],
+      "description": "micro ≤10s, short 11–30s, medium 31–59s, long ≥60s. Must match duration_s unless the record sets tier_override: true."
+    },
+    "tier_override": { "type": "boolean", "default": false },
+    "cue": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 90,
+      "description": "One line shown in the status line / panel. Include timing."
+    },
+    "steps": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "minItems": 1,
+      "maxItems": 6
+    },
+    "counter": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "The desk habit or load this stretch counteracts, e.g. forward-head, pec-shortening."
+    },
+    "hands_free": {
+      "type": "boolean",
+      "description": "True if it can be done without letting go of keyboard/mouse. Required true for micro tier."
+    },
+    "contra": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "neck-injury", "shoulder-injury", "wrist-injury", "back-injury", "hip-injury",
+          "knee-injury", "ankle-injury", "pregnancy", "low-blood-pressure", "vertigo", "recent-surgery"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "media": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "anim": { "type": "string", "pattern": "\\.svg$" },
+        "gif": { "type": "string", "pattern": "\\.gif$" },
+        "url": { "type": "string", "format": "uri" }
+      }
+    }
+  }
+}
