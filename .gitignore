@@ -3,3 +3,6 @@ node_modules/
 *.log
 adapters/cowork/plugin/vendor/
 adapters/cowork/dist/
+
+# Local delivery folder some clients create; never belongs in the repo
+Claude outputs/
