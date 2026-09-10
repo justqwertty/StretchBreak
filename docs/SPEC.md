@@ -190,24 +190,22 @@ Because estimates are fuzzy, the display must degrade gracefully when Claude fin
 
 ### 4.1 Claude Code
 
-**Trigger.** Hooks in `~/.claude/settings.json`:
+**Shape.** One file, `adapters/claude-code/stretchbreak.js`, extending the shared CLI with `hook`, `statusline`, `install` and `uninstall`. `install` merges into `~/.claude/settings.json` (backup first) and wraps any existing status line so it keeps working; `uninstall` restores it exactly.
+
+**Trigger.** Hooks in `~/.claude/settings.json`, all `async: true` so Claude is never blocked:
 
 | Hook | Role |
 |---|---|
-| `PreToolUse` (async) | Call `stretchbreak pick --tool $tool_name --effort $level`. If a stretch returns, render it. |
-| `SubagentStart` (async) | Force `--wait 120` (long tier). |
-| `PostToolUse` / `PostToolBatch` / `Stop` (async) | Call `stretchbreak done` → clears display, records observed duration. |
-| `SessionStart` | Warm cache, optionally print the day's summary. |
+| `PreToolUse` | Estimate the wait for `tool_name`; if the scheduler says yes, write the stretch to `~/.stretchbreak/cc-current.json`. |
+| `SubagentStart` | Same, forced to the long tier. |
+| `PostToolUse` / `PostToolUseFailure` | Record the observed duration for that tool (EMA per tool; replaces the seed after 3 samples). |
+| `Stop` / `SessionEnd` | Clear the current stretch: Claude is ready. |
 
-All hooks run `async: true` so they never block Claude. They're single-purpose shell one-liners; logic lives in the CLI.
+**Wait estimate.** Seed p50 per tool (`Read`/`Grep` ≈ 2 s, `Edit` ≈ 4 s, `WebFetch` ≈ 12 s, `Bash` ≈ 20 s, `Agent` ≈ 150 s, MCP tools ≈ 10 s), multiplied by effort level (`high` ×1.3, `xhigh`/`max` ×1.6), then personalised from observed durations. Only estimates at or above `min_wait_s` reach the scheduler.
 
-**Display.** Text, layered by `verbosity`:
+**Display.** Claude Code writes hook output to its debug log on tool events, not the transcript, so the **status line is the display**. The `statusline` command prints the wrapped previous status line (if any) and then the stretch, layered by `verbosity`: `cue` is one line with a countdown; `steps` (default) adds the numbered steps beneath; `full` adds Feel and Avoid. Claude Code re-runs the status line on its own events plus a 2-second `refreshInterval` for the countdown. The line disappears on `Stop` or when the stretch's time plus a short grace period runs out.
 
-1. **Status line** always carries the cue (`🧘 Neck side bend · 15s each side`), so it's visible without scrolling and disappears when Claude is ready.
-2. **Transcript** gets the numbered steps when `verbosity` is `steps` (default) and adds the Feel / Avoid lines at `full`. Printed once, as plain text; nothing to dismiss.
-3. `verbosity: cue` is the quiet mode: status line only.
-
-No terminal detection, no images, no local server. Works identically over SSH, in VS Code's terminal, and with screen readers.
+No terminal detection, no images, no local server. Works identically over SSH, in VS Code's terminal, and with screen readers. Not applicable to Claude Code on the web, which doesn't read user settings.
 
 ### 4.2 Cowork
 
@@ -294,6 +292,6 @@ stretchbreak/
 | M0 | Spec + default pack (20 stretches, full text) | ✅ |
 | M1 | Core: scheduler with tests; pack validator | ✅ |
 | M2 | Cowork plugin: 3 skills + CLI + inline text card | ✅ `adapters/cowork` (v0.1) |
-| M3 | Claude Code adapter: hooks, status line, transcript steps | Next |
-| M4 | Pack install commands (`add github:…`) and `docs/PACKS.md` community list | After M3 |
+| M3 | Claude Code adapter: hooks + status line | ✅ `adapters/claude-code` (v0.1) |
+| M4 | Pack install commands (`add github:…`) and `docs/PACKS.md` community list | Next |
 | M5 | First translated pack as a worked example | Community |

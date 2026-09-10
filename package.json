@@ -4,9 +4,14 @@
   "description": "Turn AI thinking time into a quick ergonomic stretch. Claude Code + Cowork.",
   "license": "MIT",
   "private": true,
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
-    "test": "node --test scripts/*.test.js core/*.test.js",
+    "test": "node --test scripts/*.test.js core/*.test.js adapters/claude-code/*.test.js",
     "validate": "node scripts/validate.js"
+  },
+  "bin": {
+    "stretchbreak": "adapters/claude-code/stretchbreak.js"
   }
 }

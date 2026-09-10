@@ -6,7 +6,7 @@ When Claude Code or Cowork is busy running a long tool call, you're sitting ther
 
 It never costs you time. Stretches only appear while the AI is already working, never block anything, and clear the moment it's ready.
 
-> Status: **early**. The spec, default stretch pack, scheduler, validator and a first Cowork plugin are here. The Claude Code adapter is next. See [docs/SPEC.md](docs/SPEC.md) §9 for milestones.
+> Status: **v0.1**. Both surfaces work: a Cowork plugin and a Claude Code adapter, sharing one scheduler, one default pack and one config file. Next up is a nicer way to install community packs. See [docs/SPEC.md](docs/SPEC.md) §9 for milestones.
 
 ## How it works
 
@@ -21,6 +21,19 @@ It never costs you time. Stretches only appear while the AI is already working, 
 ~60 s wait     → seated cat-cow, chest opener, figure-four
 2+ min wait    → stand up: hip flexor stretch, calf raises and a short walk
 ```
+
+## Install
+
+**Claude Code** (local sessions):
+
+```
+git clone https://github.com/justqwertty/StretchBreak && cd StretchBreak
+node adapters/claude-code/stretchbreak.js install    # then restart Claude Code
+```
+
+**Cowork**: run `adapters/cowork/build.sh` and install the `.plugin` file it produces (or grab it from a release). The first long task will ask whether you want stretches this session.
+
+Details for each in [adapters/claude-code](adapters/claude-code/README.md) and [adapters/cowork](adapters/cowork/README.md).
 
 ## Customize it
 
@@ -54,13 +67,15 @@ Every directory stands alone:
 - `packs/default/` — 20 conservative desk stretches, fully written out, as one JSON file. CC BY 4.0.
 - `schema/` — JSON Schema for stretch records, packs and config.
 - `scripts/validate.js` — the pack validator, also zero deps.
+- `core/cli.js` — the shared command-line layer (pick, show, text, config, today…); adapters add their own commands on top.
+- `adapters/claude-code/` — one file: hooks + status line + install/uninstall.
 - `adapters/cowork/` — a Cowork plugin (three skills + CLI); `adapters/cowork/build.sh` produces the installable `.plugin`.
 - `adapters/` — one folder per surface. Want StretchBreak in Cursor, Zed, or a menu-bar app? Add a folder that speaks the `pick` / `done` contract in the spec.
 
 ## Development
 
 ```
-node --test scripts/*.test.js core/*.test.js   # tests
+npm test                                        # tests
 node scripts/validate.js                        # validate every pack under packs/
 ```
 

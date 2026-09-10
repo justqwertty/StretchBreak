@@ -9,7 +9,7 @@ PLUGIN="$HERE/plugin"
 
 rm -rf "$PLUGIN/vendor"
 mkdir -p "$PLUGIN/vendor/core" "$PLUGIN/vendor/packs"
-cp "$ROOT/core/scheduler.js" "$PLUGIN/vendor/core/"
+cp "$ROOT/core/scheduler.js" "$ROOT/core/cli.js" "$PLUGIN/vendor/core/"
 cp -R "$ROOT/packs/default" "$PLUGIN/vendor/packs/default"
 node "$ROOT/scripts/validate.js" "$PLUGIN/vendor/packs/default"
 
