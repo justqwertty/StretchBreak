@@ -12,7 +12,7 @@ Also handy: "snooze stretches for an hour", "turn stretches off", "how much did 
 
 ## Customizing
 
-Preferences are stored in `~/.stretchbreak/config.json` and shared with the Claude Code adapter, so a change here applies there too. Stretches come in packs; the default pack has 20 conservative desk stretches, and you can add your own or a community pack. Pack format and the full config reference: https://github.com/stretchbreak/stretchbreak
+Preferences are stored in `~/.stretchbreak/config.json` and shared with the Claude Code adapter, so a change here applies there too. Stretches come in packs; the default pack has 20 conservative desk stretches, and you can add your own or a community pack. Pack format and the full config reference: https://github.com/justqwertty/StretchBreak
 
 ## Notes
 
